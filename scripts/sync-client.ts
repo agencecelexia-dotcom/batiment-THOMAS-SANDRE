@@ -126,8 +126,7 @@ function main() {
     lines.push('  seo: { metaTitleAccueil: "", metaDescAccueil: "", descriptionEntreprise: "", slogan: "" },');
     lines.push('} as const;');
     lines.push('export type ClientConfig = typeof clientConfig;');
-    writeFileSync(OUTPUT, lines.join("
-"), "utf-8");
+    writeFileSync(OUTPUT, lines.join("\n"), "utf-8");
     console.log("client.config.ts genere avec valeurs par defaut -> " + OUTPUT);
     process.exit(0);
   }
