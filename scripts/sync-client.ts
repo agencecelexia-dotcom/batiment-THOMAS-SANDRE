@@ -108,8 +108,28 @@ function patchStaticFiles(
 
 function main() {
   if (!existsSync(CLIENT_MD)) {
-    console.error("Erreur : CLIENT.md introuvable a la racine du projet.");
-    process.exit(1);
+    console.warn("CLIENT.md introuvable - build avec config par defaut.");
+    const lines = [];
+    lines.push('// Auto-generated default config (CLIENT.md not yet available)');
+    lines.push('export const clientConfig = {');
+    lines.push('  identity: { prenomDirigeant: "", nomDirigeant: "", nomEntreprise: "Mon Entreprise", nomLegal: "", genreDirigeant: "M", founder: "" },');
+    lines.push('  contact: { telephone: "", telephoneHref: "", telephoneUrgence: "", email: "", adresse: "", ville: "", codePostal: "", departement: "", region: "", zoneIntervention: "", zoneKm: "" },');
+    lines.push('  horaires: { semaine: "", samedi: "", dimanche: "", urgence: "" },');
+    lines.push('  branding: { couleurPrimaireHue: "210", couleurAccentHue: "30" },');
+    lines.push('  social: { facebook: "", instagram: "", google: "" },');
+    lines.push('  domaine: "", url: "",');
+    lines.push('  legal: { siret: "", rge: "", assuranceDecennale: "" },');
+    lines.push('  chiffres: { anneesExperience: 0, nombreInterventions: 0, noteGoogle: 0, nombreAvis: 0, anneeCreation: 0, delaiIntervention: "", disponibilite: "", tauxSatisfaction: "" },');
+    lines.push('  geo: { latitude: "", longitude: "" },');
+    lines.push('  communes: [], services: [], testimonials: [],');
+    lines.push('  admin: { password: "" },');
+    lines.push('  seo: { metaTitleAccueil: "", metaDescAccueil: "", descriptionEntreprise: "", slogan: "" },');
+    lines.push('} as const;');
+    lines.push('export type ClientConfig = typeof clientConfig;');
+    writeFileSync(OUTPUT, lines.join("
+"), "utf-8");
+    console.log("client.config.ts genere avec valeurs par defaut -> " + OUTPUT);
+    process.exit(0);
   }
 
   const content = readFileSync(CLIENT_MD, "utf-8");
